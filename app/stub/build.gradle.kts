@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.micewine.emu"
+    namespace = "com.miHoYo.Yuanshen"
     compileSdk = 34
 
     defaultConfig {
