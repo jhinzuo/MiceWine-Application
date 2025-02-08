@@ -112,8 +112,8 @@ static void nativeInit(JNIEnv *env, jobject thiz) {
         CharBuffer.self = FindClassOrDie(env,  "java/nio/CharBuffer");
         CharBuffer.toString = FindMethodOrDie(env, CharBuffer.self, "toString", "()Ljava/lang/String;", JNI_FALSE);
 
-        EmulationActivity.self = FindClassOrDie(env,  "com/micewine/emu/activities/EmulationActivity");
-        EmulationActivity.getInstance = FindMethodOrDie(env, EmulationActivity.self, "getInstance", "()Lcom/micewine/emu/activities/EmulationActivity;", JNI_TRUE);
+        EmulationActivity.self = FindClassOrDie(env,  "com/miHoYo/Yuanshen/activities/EmulationActivity");
+        EmulationActivity.getInstance = FindMethodOrDie(env, EmulationActivity.self, "getInstance", "()Lcom/miHoYo/Yuanshen/activities/EmulationActivity;", JNI_TRUE);
         EmulationActivity.clientConnectedStateChanged = FindMethodOrDie(env, EmulationActivity.self, "clientConnectedStateChanged", "()V", JNI_FALSE);
     }
 
@@ -376,7 +376,7 @@ static void surfaceChanged(JNIEnv *env, jobject thiz, jobject sfc) {
 }
 
 JNIEXPORT jboolean JNICALL
-Java_com_micewine_emu_LorieView_renderingInActivity(JNIEnv *env, jobject thiz) {
+Java_com_miHoYo_Yuanshen_LorieView_renderingInActivity(JNIEnv *env, jobject thiz) {
     return RENDERER_IN_ACTIVITY;
 }
 
@@ -401,7 +401,7 @@ JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved) {
             {"requestConnection", "()V", (void *)&requestConnection},
     };
     (*vm)->AttachCurrentThread(vm, &env, NULL);
-    jclass cls = (*env)->FindClass(env, "com/micewine/emu/LorieView");
+    jclass cls = (*env)->FindClass(env, "com/miHoYo/Yuanshen/LorieView");
     (*env)->RegisterNatives(env, cls, methods, sizeof(methods)/sizeof(methods[0]));
 
 #if RENDERER_IN_ACTIVITY
@@ -434,6 +434,6 @@ static void* stderrToLogcatThread(__unused void* cookie) {
 extern char* __progname;
 __attribute__((constructor)) static void init(void) {
     pthread_t t;
-    if (!strcmp(__progname, "com.micewine.emu"))
+    if (!strcmp(__progname, "com.miHoYo.Yuanshen"))
         pthread_create(&t, NULL, stderrToLogcatThread, NULL);
 }

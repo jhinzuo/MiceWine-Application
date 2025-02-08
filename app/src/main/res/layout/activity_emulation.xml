@@ -12,29 +12,29 @@
         android:layout_height="match_parent"
         android:background="@color/black">
 
-        <com.micewine.emu.LorieView
+        <com.miHoYo.Yuanshen.LorieView
             android:id="@+id/lorieView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:visibility="visible">
-        </com.micewine.emu.LorieView>
+        </com.miHoYo.Yuanshen.LorieView>
 
-        <com.micewine.emu.views.OnScreenInfoView
+        <com.miHoYo.Yuanshen.views.OnScreenInfoView
             android:id="@+id/hwView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:visibility="visible">
-        </com.micewine.emu.views.OnScreenInfoView>
+        </com.miHoYo.Yuanshen.views.OnScreenInfoView>
 
-        <com.micewine.emu.views.OverlayView
+        <com.miHoYo.Yuanshen.views.OverlayView
             android:id="@+id/overlayView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:visibility="visible">
-        </com.micewine.emu.views.OverlayView>
+        </com.miHoYo.Yuanshen.views.OverlayView>
 
     </FrameLayout>
 

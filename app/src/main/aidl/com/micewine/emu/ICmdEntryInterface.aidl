@@ -1,4 +1,4 @@
-package com.micewine.emu;
+package com.miHoYo.Yuanshen;
 
 // This interface is used by utility on termux side.
 interface ICmdEntryInterface {
