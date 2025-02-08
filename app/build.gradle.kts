@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "com.micewine.emu"
+    namespace = "com.miHoYo.Yuanshen"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.micewine.emu"
+        applicationId = "com.miHoYo.Yuanshen"
         minSdk = 28
         //noinspection ExpiredTargetSdkVersion
         targetSdk = 28
