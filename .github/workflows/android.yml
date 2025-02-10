@@ -42,11 +42,17 @@ jobs:
         echo "VERSION_COM_MICEWINE_EMU=$(echo $(cat app/build.gradle.kts | grep 'comMicewineEmu {' -A 4 | grep versionName | cut -d "=" -f 2 | sed "s/\"//g" | xargs))" >> $GITHUB_ENV
         echo "VERSION_COM_MIHOYO_YUANSHEN=$(echo $(cat app/build.gradle.kts | grep 'comMihoyoYuanshen {' -A 4 | grep versionName | cut -d "=" -f 2 | sed "s/\"//g" | xargs))" >> $GITHUB_ENV
 
+    - name: Debug Environment Variables
+      run: |
+        echo "VERSION_COM_MICEWINE_EMU: ${{ env.VERSION_COM_MICEWINE_EMU }}"
+        echo "VERSION_COM_MIHOYO_YUANSHEN: ${{ env.VERSION_COM_MIHOYO_YUANSHEN }}"
+        echo "SHORT_SHA: ${{ env.SHORT_SHA }}"
+
     - name: "Create Release"
       uses: softprops/action-gh-release@v2
       with:
         name: "MiceWine Application ${{ env.VERSION_COM_MICEWINE_EMU }} and Yuanshen ${{ env.VERSION_COM_MIHOYO_YUANSHEN }} (git-${{ env.SHORT_SHA }})"
-        tag_name: ${{ env.SHORT_SHA }}
+        tag_name: "v${{ env.VERSION_COM_MICEWINE_EMU }}-${{ env.SHORT_SHA }}"
         prerelease: true
         files: |
           ./app/build/outputs/apk/comMicewineEmu/debug/app-comMicewineEmu-debug.apk
