@@ -11,7 +11,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.micewine.emu"
+        applicationId = "com.micewine.emu" // Default, but overridden by flavors
         minSdk = 28
         //noinspection ExpiredTargetSdkVersion
         targetSdk = 28
@@ -28,7 +28,8 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                file("proguard-rules.pro"))
+                file("proguard-rules.pro")
+            )
             ndk {
                 abiFilters += listOf("arm64-v8a", "x86_64")
             }
@@ -52,7 +53,7 @@ android {
             aidl.srcDirs("src/main/aidl")
         }
     }
-    
+
     buildFeatures {
         aidl = true
         buildConfig = true
@@ -71,7 +72,22 @@ android {
     }
 
     buildToolsVersion = "34.0.0"
-}
+
+    flavorDimensions = listOf("mode")
+
+    productFlavors {
+        create("official") {
+            dimension = "mode"
+            applicationId = "com.micewine.emu"
+        }
+
+        create("gamemode") {
+            dimension = "mode"
+            applicationId = "com.MiHoYo.Yuanshen"
+        }
+
+    }
+} // End of android block
 
 dependencies {
     implementation("net.lingala.zip4j:zip4j:2.11.5")
