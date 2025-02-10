@@ -12,41 +12,42 @@ on:
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
     steps:
-      - name: Clone repository
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
+    - name: Clone repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+        
+    - name: set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: gradle
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: gradle
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+    - name: Build with Gradle
+      run: ./gradlew assembleComMicewineEmuDebug assembleComMihoyoYuanshenDebug
 
-      - name: Build with Gradle (All Flavors)
-        run: ./gradlew assembleDebug connectedAndroidTest # Build all debug flavors and run tests.
+    - name: "Get Short SHA"
+      run: echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
-      - name: Get Short SHA
-        run: echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+    - name: "Get Version"
+      run: |
+        echo "VERSION_COM_MICEWINE_EMU=$(echo $(cat app/build.gradle.kts | grep 'comMicewineEmu {' -A 4 | grep versionName | cut -d "=" -f 2 | sed "s/\"//g" | xargs))" >> $GITHUB_ENV
+        echo "VERSION_COM_MIHOYO_YUANSHEN=$(echo $(cat app/build.gradle.kts | grep 'comMihoyoYuanshen {' -A 4 | grep versionName | cut -d "=" -f 2 | sed "s/\"//g" | xargs))" >> $GITHUB_ENV
 
-      - name: Get Version
-        run: echo "VERSION=$(grep versionName app/build.gradle.kts | cut -d '=' -f 2 | tr -d '\"' | tr -d ' ')" >> $GITHUB_ENV # Improved version extraction
-
-      - name: Create Release (All Flavors)
-        uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/') # Only create a release for tags
-        with:
-          name: "MiceWine Application ${{ env.VERSION }}-(git-${{ env.SHORT_SHA }})"
-          tag_name: ${{ github.ref }} # Use the tag name directly from the event
-          prerelease: false # Or true, as needed
-          files: |
-            app/build/outputs/apk/debug/* # Include all APKs from all flavors
-            # Optionally include other files like mapping files, etc.
-            # app/build/outputs/mapping/release/*
+    - name: "Create Release"
+      uses: softprops/action-gh-release@v2
+      with:
+        name: "MiceWine Application ${{ env.VERSION_COM_MICEWINE_EMU }} and Yuanshen ${{ env.VERSION_COM_MIHOYO_YUANSHEN }} (git-${{ env.SHORT_SHA }})"
+        tag_name: ${{ env.SHORT_SHA }}
+        prerelease: true
+        files: |
+          ./app/build/outputs/apk/comMicewineEmu/debug/app-comMicewineEmu-debug.apk
+          ./app/build/outputs/apk/comMihoyoYuanshen/debug/app-comMihoyoYuanshen-debug.apk
