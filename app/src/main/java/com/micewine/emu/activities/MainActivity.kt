@@ -801,9 +801,8 @@ class MainActivity : AppCompatActivity() {
     
 private suspend fun runVirGLRenderer() {
     withContext(Dispatchers.IO) {
-        executeShell(
-            getEnv() + "sh -c 'LD_PRELOAD=/system/lib64/libvulkan.so $usrDir/bin/virgl_test_server --no-virgl --venus'",
-            "VirGLServer"
+        runCommand(
+            getEnv() + "LD_PRELOAD=/system/lib64/libvulkan.so $usrDir/bin/virgl_test_server --no-virgl --venus"
         )
     }
 }
