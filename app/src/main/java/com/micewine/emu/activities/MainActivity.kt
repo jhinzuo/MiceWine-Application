@@ -223,6 +223,7 @@ class MainActivity : AppCompatActivity() {
                     setSharedVars(this@MainActivity, box64Version, box64Preset, d3dxRenderer, wineD3D, dxvk, vkd3d, displayResolution, esync, services, virtualDesktop, cpuAffinity, (driverType == ADRENO_TOOLS_DRIVER), driverPath)
 
                     lifecycleScope.launch { runXServer(":0") }
+                    lifecycleScope.launch { runVirGLRenderer() }
                     lifecycleScope.launch { runWine(exePath, exeArguments) }
                 }
 
@@ -797,7 +798,15 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
+    
+private suspend fun runVirGLRenderer() {
+    withContext(Dispatchers.IO) {
+        executeShell(
+            getEnv() + "sh -c 'LD_PRELOAD=/system/lib64/libvulkan.so $usrDir/bin/virgl_test_server --no-virgl --venus'",
+            "VirGLServer"
+        )
+    }
+}
     private suspend fun runXServer(display: String) {
         withContext(Dispatchers.IO) {
             if (runningXServer && !setupDone) {
