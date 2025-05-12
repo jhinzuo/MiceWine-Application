@@ -62,3 +62,7 @@
 	path = app/src/main/cpp/bzip2
 	url = https://gitlab.com/bzip2/bzip2
 	ignore = dirty
+[submodule "app/src/main/cpp/virglrenderer"]
+	path = app/src/main/cpp/virglrenderer
+	url = https://github.com/jhinzuo/virglrenderer-venus
+	ignore = dirty
