@@ -64,5 +64,5 @@
 	ignore = dirty
 [submodule "app/src/main/cpp/virglrenderer"]
 	path = app/src/main/cpp/virglrenderer
-	url = https://github.com/jhinzuo/virglrenderer-venus
+	url = https://github.com/jhinzuo/virglrenderer-venus.git
 	ignore = dirty
